@@ -6,6 +6,7 @@ const PORT = 5000;
 const server = http.createServer(handleRequest);
 
 function handleRequest(req, res) {
+  console.log(req.url, req.method);
   let store = '';
   req.on('data', (chunk) => {
     store += chunk;
@@ -17,6 +18,14 @@ function handleRequest(req, res) {
     if (req.url === '/' && req.method === 'GET') {
       res.setHeader('content-type', 'text/html');
       fs.createReadStream('./index.html').pipe(res);
+    }
+    if (req.url === '/style.css' && req.method === 'GET') {
+      res.setHeader('content-type', 'text/css');
+      fs.createReadStream('./assets/style.css').pipe(res);
+    }
+    if (req.url === '/assets/index.png' && req.method === 'GET') {
+      res.setHeader('content-type', 'image/png');
+      fs.createReadStream('./assets/index.png').pipe(res);
     }
 
     //   Acess the about page
